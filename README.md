@@ -1,2 +1,2 @@
-# UI-Toolkit-Inventory
- WIP - UI Inventory using UI Toolkit in Unity 2023.1
+# Unity-Inventory-2023.1
+ WIP - Inventory
