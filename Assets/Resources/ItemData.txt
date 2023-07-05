@@ -1,0 +1,19 @@
+{
+	"Item":[
+		{
+			"name": "Apple",
+			"maxStackSize": 16,
+			"itemSprite": "AppleSprite.png"
+		},
+		{
+			"name": "Pear",
+			"maxStackSize": 16,
+			"itemSprite": "AppleSprite.png"
+		},
+		{
+			"name": "Bomb",
+			"maxStackSize": 8,
+			"itemSprite": "AppleSprite.png"
+		}
+	]
+}
