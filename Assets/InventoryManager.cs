@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Manages the Inventory slot logic of the items in the inventory.
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] GameObject slotPrefab;
