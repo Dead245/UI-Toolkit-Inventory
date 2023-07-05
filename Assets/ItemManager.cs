@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Manages the reading of item data and setting them to list
+//[Future Reference] List name and variables need to be the same as in the json file, case sensitive.
 public class ItemManager : MonoBehaviour
 {
     [SerializeField] TextAsset itemJSON;
@@ -17,7 +18,6 @@ public class ItemManager : MonoBehaviour
     [System.Serializable]
     public class ItemList {
         public Item[] Item;
-        //[Future Reference] List name needs to be the same as the top of the json file, case sensitive.
     }
 
     public ItemList theItemList = new ItemList();
