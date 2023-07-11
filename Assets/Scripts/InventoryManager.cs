@@ -17,5 +17,6 @@ public class InventoryManager : MonoBehaviour
         {
             Instantiate(slotPrefab,this.transform);
         }
+        this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
     }
 }
