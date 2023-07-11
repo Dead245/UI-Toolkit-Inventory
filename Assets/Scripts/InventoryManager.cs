@@ -18,10 +18,4 @@ public class InventoryManager : MonoBehaviour
             Instantiate(slotPrefab,this.transform);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

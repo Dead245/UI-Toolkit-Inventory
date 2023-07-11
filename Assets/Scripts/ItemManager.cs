@@ -27,10 +27,4 @@ public class ItemManager : MonoBehaviour
     {
         theItemList = JsonUtility.FromJson<ItemList>(itemJSON.text);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
