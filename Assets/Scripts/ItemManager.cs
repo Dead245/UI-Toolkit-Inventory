@@ -8,7 +8,6 @@ public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
 
-
     [SerializeField] TextAsset itemJSON;
 
     [System.Serializable]

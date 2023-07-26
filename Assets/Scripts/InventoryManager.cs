@@ -34,4 +34,13 @@ public class InventoryManager : MonoBehaviour
         //Adjusts the transform if the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
     }
+
+    void AddItem() { 
+        //Adds item into inventory by looking for first empty slot and setting the appropriate info
+        //Also checks to see if item can stack before putting it in empty slot
+    }
+
+    void RemoveItem() {
+        //Removes a certain item from a slot in Slots list
+    }
 }
