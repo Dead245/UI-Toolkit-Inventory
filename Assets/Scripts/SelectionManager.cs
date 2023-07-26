@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+//Manages what happens when a slot is hovered over/selected/etc
 public class SelectionManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private float scaleMultiplier = 1.1f;
@@ -38,7 +39,6 @@ public class SelectionManager : MonoBehaviour, IPointerEnterHandler, IPointerExi
             yield return null;
         }
     }
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {
