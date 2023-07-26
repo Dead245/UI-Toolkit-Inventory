@@ -6,7 +6,10 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
-    
+
+    public delegate void GetItemInfo(string name);
+    public static event GetItemInfo onGetItemInfo;
+
     [SerializeField] GameObject slotPrefab;
     [SerializeField] int slotCount;
 
@@ -35,7 +38,7 @@ public class InventoryManager : MonoBehaviour
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
     }
 
-    void AddItem() { 
+    void AddItem() {
         //Adds item into inventory by looking for first empty slot and setting the appropriate info
         //Also checks to see if item can stack before putting it in empty slot
     }

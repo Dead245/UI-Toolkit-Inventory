@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,11 +32,18 @@ public class ItemManager : MonoBehaviour
         {
             instance = this;
         }
+
+        InventoryManager.onGetItemInfo += GetItemInfo;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         theItemList = JsonUtility.FromJson<ItemList>(itemJSON.text);
+    }
+    private void GetItemInfo(string name)
+    {
+        //Look for item with name and return info
+        Debug.Log("Item Manager recieved event to look for: " + name);
     }
 }
