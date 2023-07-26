@@ -31,6 +31,7 @@ public class InventoryManager : MonoBehaviour
             Slots.Add(Instantiate(slotPrefab,this.transform));
             
         }
+        //Adjusts the transform if the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
     }
 }
