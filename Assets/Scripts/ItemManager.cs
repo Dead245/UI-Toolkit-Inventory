@@ -6,6 +6,9 @@ using UnityEngine;
 //[Future Reference] List name and variables need to be the same as in the json file, case sensitive.
 public class ItemManager : MonoBehaviour
 {
+    public static ItemManager instance;
+
+
     [SerializeField] TextAsset itemJSON;
 
     [System.Serializable]
@@ -21,6 +24,15 @@ public class ItemManager : MonoBehaviour
     }
 
     public ItemList theItemList = new ItemList();
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

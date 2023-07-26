@@ -5,10 +5,20 @@ using UnityEngine;
 //Manages the Inventory slot logic of the items in the inventory.
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager instance;
+    
     [SerializeField] GameObject slotPrefab;
     [SerializeField] int slotCount;
     
     private bool isOpen;
+
+    private void Awake()
+    {
+        if (instance == null) {
+            instance = this;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
