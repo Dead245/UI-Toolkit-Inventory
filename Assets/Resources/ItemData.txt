@@ -13,7 +13,7 @@
 		{
 			"name": "Bomb",
 			"maxStackSize": 8,
-			"itemSprite": "AppleSprite"
+			"itemSprite": "BombSprite"
 		}
 	]
 }
