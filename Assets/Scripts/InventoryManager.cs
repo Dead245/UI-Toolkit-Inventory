@@ -9,7 +9,10 @@ public class InventoryManager : MonoBehaviour
     
     [SerializeField] GameObject slotPrefab;
     [SerializeField] int slotCount;
-    
+
+    [SerializeField] List<GameObject> Slots = new List<GameObject>();
+
+
     private bool isOpen;
 
     private void Awake()
@@ -25,7 +28,8 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < slotCount; i++)
         {
-            Instantiate(slotPrefab,this.transform);
+            Slots.Add(Instantiate(slotPrefab,this.transform));
+            
         }
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
     }
