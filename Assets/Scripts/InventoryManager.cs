@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Manages the Inventory slot logic of the items in the inventory.
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
 
-    public delegate void GetItemInfo(string name);
+    public delegate ItemManager.Item GetItemInfo(string name);
+    //Does an event become irrelevant if I rely on 'ItemManager.Item' here?
     public static event GetItemInfo onGetItemInfo;
 
     [SerializeField] GameObject slotPrefab;
     [SerializeField] int slotCount;
 
     [SerializeField] List<GameObject> Slots = new List<GameObject>();
-
+    
 
     private bool isOpen;
 
@@ -41,11 +44,29 @@ public class InventoryManager : MonoBehaviour
     }
 
     void AddItem(string itemName) {
-
-        onGetItemInfo?.Invoke(itemName);
-        
         //Adds item into inventory by looking for first empty slot and setting the appropriate info
         //Also checks to see if item can stack before putting it in empty slot
+
+        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemName);
+        
+        //Find the sprite with name
+        Sprite itemSprite = Resources.Load<Sprite>("UI Sprites/" + foundItem.itemSprite);
+
+
+        //Sets the item into slot 0 for now
+        GameObject slotToModify = Slots[0];
+
+        //Item Sprite
+        slotToModify.transform.GetChild(0).gameObject.SetActive(true);
+        slotToModify.transform.GetChild(0).GetComponent<Image>().sprite = itemSprite;
+        //Item Label
+        slotToModify.transform.GetChild(1).gameObject.SetActive(true);
+        slotToModify.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = foundItem.name;
+        //Item Quantity
+        slotToModify.transform.GetChild(2).gameObject.SetActive(true);
+        slotToModify.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 1.ToString(); //Temp set quantity to 1
+
+        Slots[0] = slotToModify;
     }
 
     void RemoveItem() {

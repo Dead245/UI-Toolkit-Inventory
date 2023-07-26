@@ -40,8 +40,9 @@ public class ItemManager : MonoBehaviour
     {
         theItemList = JsonUtility.FromJson<ItemList>(itemJSON.text);
     }
-    private void GetItemInfo(string name)
+    private Item GetItemInfo(string name)
     {
+        int itemIndex = -1;
         //Look for item with name and return info
         for (int i = 0; i < theItemList.Item.Length; i++)
         {
@@ -49,8 +50,10 @@ public class ItemManager : MonoBehaviour
             {
                 Debug.Log("Found Item info of: " + name +
                             "\n Max Stack Size: " + theItemList.Item[i].maxStackSize);
+                itemIndex = i;
                 break;
             }
         }
+        return theItemList.Item[itemIndex];
     }
 }

@@ -3,17 +3,17 @@
 		{
 			"name": "Apple",
 			"maxStackSize": 16,
-			"itemSprite": "AppleSprite.png"
+			"itemSprite": "AppleSprite"
 		},
 		{
 			"name": "Pear",
 			"maxStackSize": 16,
-			"itemSprite": "AppleSprite.png"
+			"itemSprite": "AppleSprite"
 		},
 		{
 			"name": "Bomb",
 			"maxStackSize": 8,
-			"itemSprite": "AppleSprite.png"
+			"itemSprite": "AppleSprite"
 		}
 	]
 }
