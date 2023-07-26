@@ -25,7 +25,6 @@ public class ItemManager : MonoBehaviour
 
     public ItemList theItemList = new ItemList();
 
-
     private void Awake()
     {
         if (instance == null)
@@ -44,6 +43,14 @@ public class ItemManager : MonoBehaviour
     private void GetItemInfo(string name)
     {
         //Look for item with name and return info
-        Debug.Log("Item Manager recieved event to look for: " + name);
+        for (int i = 0; i < theItemList.Item.Length; i++)
+        {
+            if (theItemList.Item[i].name.Equals(name))
+            {
+                Debug.Log("Found Item info of: " + name +
+                            "\n Max Stack Size: " + theItemList.Item[i].maxStackSize);
+                break;
+            }
+        }
     }
 }
