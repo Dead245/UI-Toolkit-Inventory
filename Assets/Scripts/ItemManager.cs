@@ -46,14 +46,13 @@ public class ItemManager : MonoBehaviour
         //Look for item with name and return info
         for (int i = 0; i < theItemList.Item.Length; i++)
         {
-            if (theItemList.Item[i].name.Equals(name))
-            {
-                Debug.Log("Found Item info of: " + name +
-                            "\n Max Stack Size: " + theItemList.Item[i].maxStackSize);
+            if (theItemList.Item[i].name.Equals(name)) {
                 itemIndex = i;
                 break;
             }
         }
+        if (itemIndex == -1) Debug.Log("ERROR: Item not found.");
+
         return theItemList.Item[itemIndex];
     }
 }

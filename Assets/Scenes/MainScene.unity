@@ -290,11 +290,11 @@ MonoBehaviour:
   m_Content: {fileID: 863356917}
   m_Horizontal: 1
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 1804826027}
   m_HorizontalScrollbar: {fileID: 715161195}
   m_VerticalScrollbar: {fileID: 1409923259}
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -834,7 +834,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 48978619}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9962757
+  m_Size: 0.5
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1200,7 +1200,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -741.5, y: 366.5}
+  m_AnchoredPosition: {x: -741.5, y: 366.50003}
   m_SizeDelta: {x: 1461.7, y: 474.5}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &863356918
@@ -1217,7 +1217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 1269442326799291386, guid: cd8200198d80e6e41af24767436c0851,
     type: 3}
-  slotCount: 10
+  slotCount: 104
+  Slots: []
 --- !u!114 &863356919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1325,8 +1326,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1712065457}
   m_HandleRect: {fileID: 1712065456}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9962758
+  m_Value: 0
+  m_Size: 0.4999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

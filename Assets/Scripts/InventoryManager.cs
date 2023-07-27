@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //Manages the Inventory slot logic of the items in the inventory.
@@ -10,7 +11,6 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance;
 
     public delegate ItemManager.Item GetItemInfo(string name);
-    //Does an event become irrelevant if I rely on 'ItemManager.Item' here?
     public static event GetItemInfo onGetItemInfo;
 
     [SerializeField] GameObject slotPrefab;
@@ -40,6 +40,8 @@ public class InventoryManager : MonoBehaviour
         //Adjusts the transform if the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
 
+        SelectionManager.onItemDrop += ItemDropped;
+
         AddItem("Bomb");  //Testing the function
     }
 
@@ -47,8 +49,8 @@ public class InventoryManager : MonoBehaviour
         //Adds item into inventory by looking for first empty slot and setting the appropriate info
         //Also checks to see if item can stack before putting it in empty slot
 
-        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemName);
-        
+        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemName); //Calls the ItemManager to get item info and return it
+
         //Find the sprite with name
         Sprite itemSprite = Resources.Load<Sprite>("UI Sprites/" + foundItem.itemSprite);
 
@@ -71,5 +73,9 @@ public class InventoryManager : MonoBehaviour
 
     void RemoveItem() {
         //Removes a certain item from a slot in Slots list
+    }
+
+    void ItemDropped(PointerEventData eventData) {
+        Debug.Log("Dear god");
     }
 }
