@@ -78,6 +78,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     void ItemDropped(PointerEventData eventData) {
-        Debug.Log("Dear god");
+        Debug.Log("Event Data At Drop:\nSelected: " + eventData.selectedObject.name + " "+
+        "EventPos: " + eventData.position +" + MousePos: "+ Input.mousePosition);
     }
 }
