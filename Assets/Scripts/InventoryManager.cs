@@ -34,7 +34,9 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < slotCount; i++)
         {
-            Slots.Add(Instantiate(slotPrefab,this.transform));
+            GameObject slotObj = Instantiate(slotPrefab, this.transform);
+            slotObj.name = "Item Slot " + i;
+            Slots.Add(slotObj);
             
         }
         //Adjusts the transform if the Grid Layout inside of the Scroll View based on the amount of slots
