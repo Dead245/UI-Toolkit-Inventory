@@ -102,11 +102,9 @@ public class InventoryManager : MonoBehaviour
     {
         if (itemSelected) {
             mouseItemDisplay.SetActive(true);
-            Debug.Log(selectedObject.name + " selected. " + itemSelected);
         }
         else {
             mouseItemDisplay.SetActive(false);
-            Debug.Log(selectedObject.name + " unselected/dropped. " + itemSelected);
         }
 
         itemSelected = !itemSelected;
@@ -121,7 +119,5 @@ public class InventoryManager : MonoBehaviour
             mouseItemDisplay.SetActive(false);
             itemSelected = !itemSelected;
         }
-
-        Debug.Log("Clicked in an empty area. " + itemSelected);
     }
 }
