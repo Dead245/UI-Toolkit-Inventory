@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using static InventoryManager;
 
 //Manages what happens when a slot is hovered over/selected/dragged/dropped
-public class SelectionManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler
+public class SelectionManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public delegate void SlotSelected(GameObject selectedObject);
     public static event SlotSelected onSlotSelected;
@@ -58,10 +58,10 @@ public class SelectionManager : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
 
     //Picking up the item
-    public void OnSelect(BaseEventData eventData)
+    public void OnSelect()
     {
-        onSlotSelected?.Invoke(eventData.selectedObject);
+        onSlotSelected?.Invoke(this.gameObject);
     }
 
-
+    
 }

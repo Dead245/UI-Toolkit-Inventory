@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
     private Canvas canvas;
     private void Awake()
     {
+
         if (instance == null) {
             instance = this;
         }
@@ -48,40 +49,47 @@ public class InventoryManager : MonoBehaviour
         //Adjusts the transform of the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
 
-
+        itemSelected = true;
+        
         AddItem("Bomb");  //Testing the function
     }
 
     private void Update()
     {
+        //Keeps mouseItemDisplay on the cursor
         Vector2 screenPos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, Input.mousePosition, canvas.worldCamera, out screenPos);
         mouseItemDisplay.transform.position = canvas.transform.TransformPoint(screenPos);
     }
 
-    void AddItem(string itemName) {
-        //Adds item into inventory by looking for first empty slot and setting the appropriate info
-        //Also checks to see if item can stack before putting it in empty slot
-
-        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemName); //Calls the ItemManager to get item info and return it
-
+    void ChangeItemInSlot(GameObject slotToChange, string itemName, int amount) {
+        
+        //Calls the ItemManager to get item info and return it
+        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemName); 
+        
         //Find the sprite with name
         Sprite itemSprite = Resources.Load<Sprite>("UI Sprites/" + foundItem.itemSprite);
-
-        //Sets the item into slot 0 for now
-        GameObject slotToModify = Slots[0];
+        if (itemSprite == null) Debug.LogError("No sprite found with name: UI Sprites/" + foundItem.itemSprite);
 
         //Item Sprite
-        slotToModify.transform.GetChild(0).gameObject.SetActive(true);
-        slotToModify.transform.GetChild(0).GetComponent<Image>().sprite = itemSprite;
+        slotToChange.transform.GetChild(0).gameObject.SetActive(true);
+        slotToChange.transform.GetChild(0).GetComponent<Image>().sprite = itemSprite;
         //Item Label
-        slotToModify.transform.GetChild(1).gameObject.SetActive(true);
-        slotToModify.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = foundItem.name;
+        slotToChange.transform.GetChild(1).gameObject.SetActive(true);
+        slotToChange.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = foundItem.name;
         //Item Quantity
-        slotToModify.transform.GetChild(2).gameObject.SetActive(true);
-        slotToModify.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 1.ToString(); //Temp set quantity to 1
+        slotToChange.transform.GetChild(2).gameObject.SetActive(true);
+        slotToChange.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = amount.ToString();
+    }
 
-        Slots[0] = slotToModify;
+    //Adds item into inventory by looking for first empty slot and setting the appropriate info
+    //Also checks to see if item can stack before putting it in empty slot
+    void AddItem(string itemName) {
+        //[TEMP] Sets the item into slot 0 for now
+        GameObject slotToModify = Slots[0];
+
+        ChangeItemInSlot(slotToModify,itemName, 1); //Temp set quantity to 1
+
     }
 
     void RemoveItem() {
@@ -89,7 +97,17 @@ public class InventoryManager : MonoBehaviour
     }
     private void SlotSelect(GameObject selectedObject)
     {
-        Debug.Log(selectedObject.name + " selected.");
+        itemSelected = !itemSelected;
+
+        if (itemSelected) {
+            mouseItemDisplay.SetActive(false);
+            Debug.Log(selectedObject.name + " unselected/dropped");
+        }
+        else {
+            mouseItemDisplay.SetActive(true);
+            Debug.Log(selectedObject.name + " selected.");
+        }
+        
     }
 
 }
