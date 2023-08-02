@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,6 +39,9 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mouseItemDisplay.SetActive(false);
+        itemSelected = true;
+
         for (int i = 0; i < slotCount; i++)
         {
             GameObject slotObj = Instantiate(slotPrefab, this.transform);
@@ -49,7 +53,6 @@ public class InventoryManager : MonoBehaviour
         //Adjusts the transform of the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
 
-        itemSelected = true;
         
         AddItem("Bomb");  //Testing the function
     }
@@ -97,17 +100,28 @@ public class InventoryManager : MonoBehaviour
     }
     private void SlotSelect(GameObject selectedObject)
     {
-        itemSelected = !itemSelected;
-
         if (itemSelected) {
-            mouseItemDisplay.SetActive(false);
-            Debug.Log(selectedObject.name + " unselected/dropped");
+            mouseItemDisplay.SetActive(true);
+            Debug.Log(selectedObject.name + " selected. " + itemSelected);
         }
         else {
-            mouseItemDisplay.SetActive(true);
-            Debug.Log(selectedObject.name + " selected.");
+            mouseItemDisplay.SetActive(false);
+            Debug.Log(selectedObject.name + " unselected/dropped. " + itemSelected);
         }
-        
+
+        itemSelected = !itemSelected;
+
     }
 
+    //mouse clicked in empty space with an item
+    public void emptyClick()
+    {
+        if (!itemSelected)
+        {
+            mouseItemDisplay.SetActive(false);
+            itemSelected = !itemSelected;
+        }
+
+        Debug.Log("Clicked in an empty area. " + itemSelected);
+    }
 }
