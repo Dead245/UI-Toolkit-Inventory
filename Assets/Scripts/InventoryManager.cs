@@ -16,16 +16,21 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject slotPrefab;
     [SerializeField] int slotCount;
 
-    [SerializeField] List<GameObject> Slots = new List<GameObject>();
+    [SerializeField] private List<GameObject> Slots = new List<GameObject>();
+
     
+    [SerializeField] private GameObject mouseItemDisplay;
+    private bool itemSelected;
 
-    private bool isOpen;
-
+    private Canvas canvas;
     private void Awake()
     {
         if (instance == null) {
             instance = this;
         }
+
+        SelectionManager.onSlotSelected += SlotSelect;
+        canvas = transform.root.GetComponent<Canvas>();
     }
 
 
@@ -39,12 +44,19 @@ public class InventoryManager : MonoBehaviour
             Slots.Add(slotObj);
             
         }
-        //Adjusts the transform if the Grid Layout inside of the Scroll View based on the amount of slots
+
+        //Adjusts the transform of the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
 
-        SelectionManager.onItemDrop += ItemDropped;
 
         AddItem("Bomb");  //Testing the function
+    }
+
+    private void Update()
+    {
+        Vector2 screenPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, Input.mousePosition, canvas.worldCamera, out screenPos);
+        mouseItemDisplay.transform.position = canvas.transform.TransformPoint(screenPos);
     }
 
     void AddItem(string itemName) {
@@ -55,7 +67,6 @@ public class InventoryManager : MonoBehaviour
 
         //Find the sprite with name
         Sprite itemSprite = Resources.Load<Sprite>("UI Sprites/" + foundItem.itemSprite);
-
 
         //Sets the item into slot 0 for now
         GameObject slotToModify = Slots[0];
@@ -76,9 +87,9 @@ public class InventoryManager : MonoBehaviour
     void RemoveItem() {
         //Removes a certain item from a slot in Slots list
     }
-
-    void ItemDropped(PointerEventData eventData) {
-        Debug.Log("Event Data At Drop:\nSelected: " + eventData.selectedObject.name + " "+
-        "EventPos: " + eventData.position +" + MousePos: "+ Input.mousePosition);
+    private void SlotSelect(GameObject selectedObject)
+    {
+        Debug.Log(selectedObject.name + " selected.");
     }
+
 }
