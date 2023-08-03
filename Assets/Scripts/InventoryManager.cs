@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
 
-    public delegate ItemManager.Item GetItemInfo(string name);
+    public delegate ItemManager.Item GetItemInfo(int itemId);
     public static event GetItemInfo onGetItemInfo;
 
     [SerializeField] GameObject slotPrefab;
@@ -54,7 +54,7 @@ public class InventoryManager : MonoBehaviour
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
 
         
-        AddItem("Bomb");  //Testing the function
+        AddItem(0, 1);  //[TEMP] Testing the function
     }
 
     private void Update()
@@ -65,10 +65,10 @@ public class InventoryManager : MonoBehaviour
         mouseItemDisplay.transform.position = canvas.transform.TransformPoint(screenPos);
     }
 
-    void ChangeItemInSlot(GameObject slotToChange, string itemName, int amount) {
+    void ChangeItemInSlot(GameObject slotToChange, int itemId, int amount) {
         
         //Calls the ItemManager to get item info and return it
-        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemName); 
+        ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemId); 
         
         //Find the sprite with name
         Sprite itemSprite = Resources.Load<Sprite>("UI Sprites/" + foundItem.itemSprite);
@@ -87,11 +87,10 @@ public class InventoryManager : MonoBehaviour
 
     //Adds item into inventory by looking for first empty slot and setting the appropriate info
     //Also checks to see if item can stack before putting it in empty slot
-    void AddItem(string itemName) {
-        //[TEMP] Sets the item into slot 0 for now
-        GameObject slotToModify = Slots[0];
+    void AddItem(int itemId, int amount) {
 
-        ChangeItemInSlot(slotToModify,itemName, 1); //Temp set quantity to 1
+        //[TEMP]
+        ChangeItemInSlot(Slots[0], itemId, amount);
 
     }
 

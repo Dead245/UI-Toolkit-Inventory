@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //Manages the reading of item data and setting them to list
@@ -11,6 +12,7 @@ public class ItemManager : MonoBehaviour
 
     [SerializeField] TextAsset itemJSON;
 
+
     [System.Serializable]
     public class Item {
         public string name;
@@ -20,10 +22,12 @@ public class ItemManager : MonoBehaviour
 
     [System.Serializable]
     public class ItemList {
-        public Item[] Item;
+        public List<Item> Item;
     }
 
     public ItemList theItemList = new ItemList();
+
+    Dictionary<int, Item> itemDict;
 
     private void Awake()
     {
@@ -39,20 +43,18 @@ public class ItemManager : MonoBehaviour
     void Start()
     {
         theItemList = JsonUtility.FromJson<ItemList>(itemJSON.text);
-    }
-    private Item GetItemInfo(string name)
-    {
-        int itemIndex = -1;
-        //Look for item with name and return info
-        for (int i = 0; i < theItemList.Item.Length; i++)
-        {
-            if (theItemList.Item[i].name.Equals(name)) {
-                itemIndex = i;
-                break;
-            }
-        }
-        if (itemIndex == -1) Debug.Log("ERROR: Item not found.");
 
-        return theItemList.Item[itemIndex];
+        //Convert List to Dictionary with keys
+        itemDict = theItemList.Item.Select((val, index) => new { Index = index, Value = val })
+               .ToDictionary(i => i.Index, i => i.Value);
+    }
+    private Item GetItemInfo(int itemId)
+    {
+        Item foundItem;
+        //Look for item with name and return info
+        itemDict.TryGetValue(itemId, out foundItem);
+        if (foundItem == null) Debug.Log("ERROR: Item with Id " + itemId + " not found.");
+
+        return foundItem;
     }
 }
