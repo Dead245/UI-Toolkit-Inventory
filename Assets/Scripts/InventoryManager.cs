@@ -1,9 +1,8 @@
-using JetBrains.Annotations;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //Manages the Inventory slot logic of the items in the inventory.
@@ -11,19 +10,35 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
 
+    string inventoryJsonPath = Application.dataPath + "/InventoryData.txt";
+    
+    private List<GameObject> Slots = new List<GameObject>();
+
     public delegate ItemManager.Item GetItemInfo(int itemId);
     public static event GetItemInfo onGetItemInfo;
 
     [SerializeField] GameObject slotPrefab;
     [SerializeField] int slotCount;
-
-    [SerializeField] private List<GameObject> Slots = new List<GameObject>();
-
     
+    
+
     [SerializeField] private GameObject mouseItemDisplay;
     private bool itemSelected;
 
     private Canvas canvas;
+
+    [Serializable]
+    public class itemSlotInfo {
+        public int itemId;
+        public int amount;
+    }
+
+    [Serializable]
+    public class inventoryList {
+        public List<itemSlotInfo> inventory = new List<itemSlotInfo>();
+    }
+
+    inventoryList theInventoryList = new inventoryList();
     private void Awake()
     {
 
@@ -47,7 +62,7 @@ public class InventoryManager : MonoBehaviour
             GameObject slotObj = Instantiate(slotPrefab, this.transform);
             slotObj.name = "Item Slot " + i;
             Slots.Add(slotObj);
-            
+            theInventoryList.inventory.Add(new itemSlotInfo {itemId = -1, amount = 0}); // -1 for null item
         }
 
         //Adjusts the transform of the Grid Layout inside of the Scroll View based on the amount of slots
@@ -87,15 +102,18 @@ public class InventoryManager : MonoBehaviour
 
     //Adds item into inventory by looking for first empty slot and setting the appropriate info
     //Also checks to see if item can stack before putting it in empty slot
-    void AddItem(int itemId, int amount) {
+    void AddItem(int newItemId, int newAmount) {
 
         //[TEMP]
-        ChangeItemInSlot(Slots[0], itemId, amount);
-
+        ChangeItemInSlot(Slots[0], newItemId, newAmount);
+        theInventoryList.inventory[0] = new itemSlotInfo { itemId = newItemId, amount = newAmount };
+        UpdateInventory();
     }
 
     void RemoveItem() {
         //Removes a certain item from a slot in Slots list
+
+        UpdateInventory();
     }
     private void SlotSelect(GameObject selectedObject)
     {
@@ -117,6 +135,20 @@ public class InventoryManager : MonoBehaviour
         {
             mouseItemDisplay.SetActive(false);
             itemSelected = !itemSelected;
+        }
+    }
+
+    private void UpdateInventory() {
+        string json = JsonUtility.ToJson(theInventoryList);
+
+        if (!File.Exists(inventoryJsonPath)) { 
+            File.WriteAllText(inventoryJsonPath, json);
+        } else {
+            using (var writer = new StreamWriter(inventoryJsonPath, false)) { 
+                writer.WriteLine(json);
+                writer.Close();
+            }
+            
         }
     }
 }

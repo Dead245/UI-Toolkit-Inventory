@@ -47,6 +47,8 @@ public class ItemManager : MonoBehaviour
         //Convert List to Dictionary with keys
         itemDict = theItemList.Item.Select((val, index) => new { Index = index, Value = val })
                .ToDictionary(i => i.Index, i => i.Value);
+
+        theItemList = null; //Empties theItemList, to save space?
     }
     private Item GetItemInfo(int itemId)
     {
