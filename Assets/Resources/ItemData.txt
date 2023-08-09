@@ -6,9 +6,9 @@
 			"itemSprite": "AppleSprite"
 		},
 		{
-			"name": "Pear",
+			"name": "Gold Coin",
 			"maxStackSize": 16,
-			"itemSprite": "AppleSprite"
+			"itemSprite": "GoldCoinSprite"
 		},
 		{
 			"name": "Bomb",
