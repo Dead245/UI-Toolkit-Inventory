@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,7 +97,31 @@ public class InventoryManager : MonoBehaviour
     }
 
     void ChangeItemInSlot(GameObject slotToChange, int itemId, int amount) {
-        if (itemId == -1) return; //Will eventually have to set the slot as null if itemID is -1
+
+        int foundIndex;
+
+        //Will have to set the slot as null if itemID is -1
+        if (itemId == -1) {
+            //Item Sprite
+            slotToChange.transform.GetChild(0).gameObject.SetActive(false);
+            slotToChange.transform.GetChild(0).GetComponent<Image>().sprite = null;
+            //Item Label
+            slotToChange.transform.GetChild(1).gameObject.SetActive(false);
+            slotToChange.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = null;
+            //Item Quantity
+            slotToChange.transform.GetChild(2).gameObject.SetActive(false);
+            slotToChange.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = null;
+            
+            //Find the object in the Slots[] list and return the index
+            foundIndex = Slots.IndexOf(slotToChange);
+            
+            //Update theInventoryList
+            theInventoryList.inventory[foundIndex].itemId = itemId;
+            theInventoryList.inventory[foundIndex].amount = amount;
+
+            UpdateInventory();
+            return;
+        } 
 
         //Calls the ItemManager to get item info and return it
         ItemManager.Item foundItem = onGetItemInfo?.Invoke(itemId); 
@@ -114,20 +139,15 @@ public class InventoryManager : MonoBehaviour
         //Item Quantity
         slotToChange.transform.GetChild(2).gameObject.SetActive(true);
         slotToChange.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = amount.ToString();
+
+        //Find the object in the Slots[] list and return the index
+        foundIndex = Slots.IndexOf(slotToChange);
+
+        //Update theInventoryList
+        theInventoryList.inventory[foundIndex].itemId = itemId;
+        theInventoryList.inventory[foundIndex].amount = amount;
     }
 
-    //Adds item into inventory by looking for first empty slot and setting the appropriate info
-    //Also checks to see if item can stack before putting it in empty slot
-    void AddItem(int newItemId, int newAmount) {
-        
-        UpdateInventory();
-    }
-
-    void RemoveItem() {
-        //Removes a certain item from a slot in Slots list
-
-        UpdateInventory();
-    }
     private void SlotSelect(GameObject selectedObject)
     {
         if (itemSelected) {
@@ -142,7 +162,10 @@ public class InventoryManager : MonoBehaviour
                 selectedObject.transform.GetChild(0).GetComponent<Image>().sprite;
             //Set Item Quantity
             mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-                selectedObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text;   
+                selectedObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text;
+
+            //Empty the slot that is clicked on
+            ChangeItemInSlot(selectedObject,-1,0);
         }
         else {
             mouseItemDisplay.SetActive(false);
@@ -166,6 +189,8 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateInventory() {
         string json = JsonUtility.ToJson(theInventoryList);
+       
+        Debug.Log(json);
 
         if (!File.Exists(inventoryJsonPath)) { 
             File.WriteAllText(inventoryJsonPath, json);
