@@ -836,7 +836,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 48978619}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.5
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1202,7 +1202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -741.49994, y: 366.49997}
+  m_AnchoredPosition: {x: -741.5, y: 366.49994}
   m_SizeDelta: {x: 1461.7, y: 474.5}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &863356918
@@ -1389,6 +1389,7 @@ GameObject:
   - component: {fileID: 1065290555}
   - component: {fileID: 1065290557}
   - component: {fileID: 1065290556}
+  - component: {fileID: 1065290558}
   m_Layer: 5
   m_Name: MouseItem
   m_TagString: Untagged
@@ -1455,6 +1456,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065290554}
   m_CullTransparentMesh: 1
+--- !u!114 &1065290558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065290554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcc11ac40c15ca644b555a630e0d7e2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: 0
 --- !u!1 &1409923257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,8 +1552,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1712065457}
   m_HandleRect: {fileID: 1712065456}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.50000006
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
