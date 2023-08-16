@@ -29,6 +29,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject mouseItemDisplay;
     private bool itemSelected;
+    private int selectedItemId;
 
     private Canvas canvas;
 
@@ -46,6 +47,7 @@ public class InventoryManager : MonoBehaviour
     inventoryList theInventoryList = new inventoryList();
     private void Awake()
     {
+        selectedItemId = -1;
 
         if (instance == null) {
             instance = this;
@@ -156,11 +158,17 @@ public class InventoryManager : MonoBehaviour
 
     private void SlotSelect(GameObject selectedObject)
     {
+        int index;
+
         if (itemSelected) {
             //if the slot clicked on doesnt have an item displayed, aka, no item in the slot
             if (!selectedObject.transform.GetChild(0).gameObject.activeInHierarchy) {
                 return;
             }
+
+            index = Slots.IndexOf(selectedObject);
+            selectedItemId = theInventoryList.inventory[index].itemId;
+            mouseItemDisplay.GetComponent<ItemHolder>().itemID = selectedItemId;
 
             mouseItemDisplay.SetActive(true);
             //Set Item Image
@@ -174,9 +182,40 @@ public class InventoryManager : MonoBehaviour
             ChangeItemInSlot(selectedObject,-1,0);
         }
         else {
-            mouseItemDisplay.SetActive(false);
-            mouseItemDisplay.GetComponent<Image>().sprite = null;
-            mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
+            Sprite spriteHolder = null;
+            string amountHolder = null;
+            int itemIdHolder = -1;
+            bool itemSwap = false;
+            //If this is true, that means there is an item in the slot
+            if (selectedObject.transform.GetChild(0).gameObject.activeInHierarchy) {
+                itemSwap = true;
+                //"Pick up" the object in the slot to make room
+                // Item Sprite
+                spriteHolder = selectedObject.transform.GetChild(0).GetComponent<Image>().sprite;
+                //Item Quantity
+                amountHolder = selectedObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text;
+                index = Slots.IndexOf(selectedObject);
+                itemIdHolder = theInventoryList.inventory[index].itemId;
+            }
+
+            //Set the item down into the slot
+            ChangeItemInSlot(selectedObject, selectedItemId,
+                Int32.Parse(mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text));
+
+            if (itemSwap)
+            {
+                selectedItemId = itemIdHolder;
+                mouseItemDisplay.GetComponent<Image>().sprite = spriteHolder;
+                mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = amountHolder;
+                itemSelected = !itemSelected;
+            }
+            else
+            {
+                mouseItemDisplay.SetActive(false);
+                mouseItemDisplay.GetComponent<Image>().sprite = null;
+                mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
+            }
+
         }
 
         itemSelected = !itemSelected;
@@ -194,9 +233,18 @@ public class InventoryManager : MonoBehaviour
     }
 
     private void UpdateInventory() {
+        
+        //If inventory is LARGER than what is saved, expand the list
+        if (Slots.Count > theInventoryList.inventory.Count) {
+            int difference = Slots.Count - theInventoryList.inventory.Count;
+            for (int i = 0; i < difference; i++)
+            {
+                theInventoryList.inventory.Add(new itemSlotInfo {itemId = -1,amount = 0});
+            }
+        }
+
         string json = JsonUtility.ToJson(theInventoryList);
        
-        Debug.Log(json);
 
         if (!File.Exists(inventoryJsonPath)) { 
             File.WriteAllText(inventoryJsonPath, json);
