@@ -6,7 +6,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-//Manages the Inventory slot logic of the items in the inventory.
+/*
+Manages the Inventory slot logic of the items in the inventory.
+Inventory Json is read into theInventoryList.
+The inventory and Json is saved/updated based off theInventoryList.
+*/
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
@@ -146,6 +150,8 @@ public class InventoryManager : MonoBehaviour
         //Update theInventoryList
         theInventoryList.inventory[foundIndex].itemId = itemId;
         theInventoryList.inventory[foundIndex].amount = amount;
+
+        UpdateInventory();
     }
 
     private void SlotSelect(GameObject selectedObject)
