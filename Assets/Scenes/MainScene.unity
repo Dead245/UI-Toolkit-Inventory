@@ -1219,8 +1219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 1269442326799291386, guid: cd8200198d80e6e41af24767436c0851,
     type: 3}
-  slotCount: 9
-  Slots: []
+  slotCount: 78
   mouseItemDisplay: {fileID: 1065290554}
 --- !u!114 &863356919
 MonoBehaviour:

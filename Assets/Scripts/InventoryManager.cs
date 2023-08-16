@@ -4,7 +4,6 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static InventoryManager;
 
 //Manages the Inventory slot logic of the items in the inventory.
 public class InventoryManager : MonoBehaviour
@@ -80,6 +79,7 @@ public class InventoryManager : MonoBehaviour
         //Adjusts the transform of the Grid Layout inside of the Scroll View based on the amount of slots
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, slotCount * 10);
         
+        //Loads inventory from Json
         int invCount = theInventoryList.inventory.Count;
         for (int i = 0; i < invCount; i++)
         {
@@ -131,12 +131,23 @@ public class InventoryManager : MonoBehaviour
     private void SlotSelect(GameObject selectedObject)
     {
         if (itemSelected) {
+            //if the slot clicked on doesnt have an item displayed, aka, no item in the slot
+            if (!selectedObject.transform.GetChild(0).gameObject.activeInHierarchy) {
+                return;
+            }
+
             mouseItemDisplay.SetActive(true);
-            
+            //Set Item Image
+            mouseItemDisplay.GetComponent<Image>().sprite =
+                selectedObject.transform.GetChild(0).GetComponent<Image>().sprite;
+            //Set Item Quantity
+            mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                selectedObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text;   
         }
         else {
             mouseItemDisplay.SetActive(false);
-            
+            mouseItemDisplay.GetComponent<Image>().sprite = null;
+            mouseItemDisplay.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
         }
 
         itemSelected = !itemSelected;
